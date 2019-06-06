@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\nchild_mortality_rate <- read.csv(\"data/child-mortality-around-the-world.csv\")\nspread_child_mortality <- child_mortality_rate %>%  tidyr::spread(key = Year, \n                                              value = Child.mortality.rate....)\nclean_data_years <- select(spread_child_mortality, -Code,-contains(\"19\"))\nclean_data_years <- clean_data_years %>%  rename(Country = Entity)\nclean_data_years <- gather(clean_data_years,Year,child_mortality,\"2000\":\"2015\") %>% \n  mutate(Year = as.numeric(Year))\n\n\nmedical_spending <- read.csv(\"data/medical_spending.csv\",stringsAsFactors = FALSE)\nmedical_spending <- medical_spending %>%  rename(Country = Country.Name)\nmedical_spending_2000_2015 <- select(medical_spending,-X2016,-Country.Code)\n\nmedical_spending_reformat <- gather(medical_spending_2000_2015,Year,\n                                    Medical_spending,X2000:X2015) %>% \n  mutate(Year = str_replace(Year, \"X\", \"\"),\n         Year = as.numeric(Year))\n\n\n\nmerge_data_frames <- right_join(clean_data_years, \n                                na.omit(medical_spending_reformat), \n                                by = c(\"Year\", \"Country\"))\nmerge_data_frames <- na.omit(merge_data_frames)\nView(merge_data_frames)\n#View(medical_spending_reformat)\n#View(clean_data_years)\n\n\nshinyServer(function(input, output) {\n  \n  output_country <- reactive({\n    merge_data_frames %>% filter(Country == input$select_country)\n    \n  })\n   \n  output$year_plot <- renderPlot({\n    ggplot() + geom_area(aes(y = child_mortality, x = Medical_spending),\n                         data = output_country()) +\n      labs(title = \"A graph to show the relationship between Medical Spending \n           and Child Mortality\", x = \"Medical Spending\",\n           y = \"Child Mortality (%)\") + theme_classic() + \n      theme(plot.title = element_text(face = \"bold\", hjust = 0.5))\n  })\n  \n  output_compare <- reactive({\n    merge_data_frames %>% filter(Year == input$select_year, \n                                 Country %in% input$select_first_country) %>% \n      select(Country, Year, results = input$select_column)\n  })\n\n  \n  output$compare_plot <- renderPlot({\n    ggplot(output_compare(), aes(Country)) + geom_col(aes(y = results), \n                                                      fill = \"black\") + \n      scale_fill_hue(c=45, l=80) + \n      labs(title = paste(\"A graph to compare the countries\",input$select_column), \n           y = input$select_column) +\n      theme_classic() + \n      theme(plot.title = element_text(color = \"black\", size = 20, \n                                      face = \"bold\", hjust = 0.5))\n    \n  })\n  \n})\n",
+    "created" : 1559728377798.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3552243265",
+    "id" : "CE86461E",
+    "lastKnownWriteTime" : 1559728361,
+    "last_content_update" : 1559728361,
+    "path" : "~/Downloads/server.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

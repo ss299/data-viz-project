@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(ggplot2)\n\nfoodwaste_PPP <- read.csv(\"~/Desktop/info201finaldata.csv\")\n\n\n# Define server logic required to draw a histogram\nshinyServer(function(input, output) {\n  \n  output_scatter_plot <- reactive({\n    foodwaste_PPP %>% filter(X.1 == input$pick_income)\n  }) \n\n  output$scatterPlot <- renderPlot({\n    ggplot(output_scatter_plot(),aes(food.waste, PPP.capita)) + geom_point() + scale_y_log10() +geom_smooth(method = lm, se = FALSE) + labs(title = \"Food Waste VS PPP Capita\", x = \"Food Waste\", y = \"PPP capita\") + theme(plot.title = element_text(color = \"black\", size = 20, face = \"bold\", hjust = 0.5))\n    \n  })\n  \n  output_comparison <- reactive({\n    foodwaste_PPP %>% filter(Country.Name %in% input$select_country) %>% \n      select(Country.Name, pick = input$select_columns)\n  })\n  \n  \n  output$compare_plot <- renderPlot({\n    ggplot(output_comparison(), aes(Country.Name)) + geom_col(aes(y = pick), \n                                                      fill = \"skyblue\") + \n      scale_fill_hue(c=45, l=80) + \n      labs(title = paste(\"A graph to compare the countries\",input$select_columns), \n           y = input$select_columns) +\n      theme_classic() + \n      theme(plot.title = element_text(color = \"black\", size = 20, \n                                      face = \"bold\", hjust = 0.5))\n    \n  })\n  \n  \n}",
+    "created" : 1559727106738.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2226345154",
+    "id" : "C139F3A9",
+    "lastKnownWriteTime" : 1559729125,
+    "last_content_update" : 1559729125457,
+    "path" : "~/Desktop/group-19-final-project/Emre_Q2/server.R",
+    "project_path" : "Emre_Q2/server.R",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

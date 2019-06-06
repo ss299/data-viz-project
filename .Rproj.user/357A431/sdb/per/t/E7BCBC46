@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "\n\ninfo201finaldata <- read.csv(\"~/Desktop/info201finaldata.csv\")\nView(info201finaldata)\n\n\n\n\n#view <- ggplot(info201finaldata) + geom_point(aes(x = food.waste, y = PPP.capita)) + geom_smooth(method = lm)\nview <- ggplot(info201finaldata,aes(food.waste, PPP.capita)) + geom_point() + scale_y_log10() +geom_smooth(method = lm, se = FALSE) + labs(title = \"Food Waste VS PPP Capita\", x = \"Food Waste\", y = \"PPP capita\") + theme(plot.title = element_text(color = \"black\", size = 20, face = \"bold\", hjust = 0.5))\n\nggsave(view, file = \"testing.jpg\")\n\nplot(view)\n              ",
+    "created" : 1559721148410.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1789502766",
+    "id" : "E7BCBC46",
+    "lastKnownWriteTime" : 1559725819,
+    "last_content_update" : 1559725819132,
+    "path" : "~/Desktop/group-19-final-project/pppfoodwasteggplot.R",
+    "project_path" : "pppfoodwasteggplot.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

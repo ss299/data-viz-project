@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(ggplot2)\n\n\nfoodwaste_PPP <- read.csv(\"~/Desktop/info201finaldata.csv\")\n\n\n# Define UI for application that draws a histogram\nshinyUI(fluidPage(\n  \n  # Application title\n  titlePanel(\"To what extent does purchase power impact the consumption and wastage of food?\"),\n  \n  # Sidebar with a slider input for number of bins \n  sidebarLayout(\n    sidebarPanel(\n      radioButtons(\"pick_income\", label = h3(\"Pick a income level\"), choices = list(\"High Income\" = \"HIC\", \"Upper Medium Income\" = \"UMC\", \"Lower Medium income\" = \"LMC\", \"Lower Income\" = \"LIC\")),\n      selectInput(\"select_columns\", \n                   label = h3(\"Compare PPP per Capita or Food Waste\"),\n                   list(\"Food Waste\" = \"food.waste\",\n                        \"PPP per capita\" = \"PPP.capita\")),\n      selectInput(\"select_country\", label = h3(\"Pick a country\"), \n                  choices = unique(foodwaste_PPP$Country.Name), multiple = TRUE)\n    ),\n    \n    # Show a plot of the generated distribution\n    mainPanel(\n      tabsetPanel(\n    tabPanel(\"Food Waste VS PPP capita\",plotOutput(\"scatterPlot\")),\n    tabPanel(\"Food Waste VS PPP capita Comparison\", plotOutput(\"compare_plot\"))\n      )\n    )\n  )\n))\n",
+    "created" : 1559727106420.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "366633815",
+    "id" : "DA84A69F",
+    "lastKnownWriteTime" : 1559728956,
+    "last_content_update" : 1559728956580,
+    "path" : "~/Desktop/group-19-final-project/Emre_Q2/ui.R",
+    "project_path" : "Emre_Q2/ui.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\nchild_mortality_rate <- read.csv(\"data/child-mortality-around-the-world.csv\")\nspread_child_mortality <- child_mortality_rate %>%  tidyr::spread(key = Year,\n                                              value = Child.mortality.rate....)\nclean_data_years <- select(spread_child_mortality, -Code,-contains(\"19\"))\nclean_data_years <- clean_data_years %>%  rename(Country = Entity)\nclean_data_years <- gather(clean_data_years,Year,child_mortality,\"2000\":\"2015\") %>% \n  mutate(Year = as.numeric(Year))\n\n\nmedical_spending <- read.csv(\"data/medical_spending.csv\",\n                             stringsAsFactors = FALSE)\nmedical_spending <- medical_spending %>%  rename(Country = Country.Name)\nmedical_spending_2000_2015 <- select(medical_spending,-X2016,-Country.Code)\n\nmedical_spending_reformat <- gather(medical_spending_2000_2015,Year,\n                                    Medical_spending,X2000:X2015) %>% \n  mutate(Year = str_replace(Year, \"X\", \"\"),\n         Year = as.numeric(Year))\n\n\n\nmerge_data_frames <- right_join(clean_data_years, \n                                na.omit(medical_spending_reformat), \n                                by = c(\"Year\", \"Country\"))\nmerge_data_frames <- na.omit(merge_data_frames)\nView(merge_data_frames)\n\nshinyUI(fluidPage(\n  \n  titlePanel(\"To what extent does purchase power impact medical spending and \n             child mortality?\"),\n  \n  # Sidebar with a slider input for number of bins \n  sidebarLayout(\n    sidebarPanel(\n      selectInput(\"select_country\", label = h3(\"Pick a country\"), \n                  choices = unique(merge_data_frames$Country)),\n      sliderInput(\"select_year\", label = h3(\"Select a year\"), \n                  min = 2000, max = 2015, value = 2004),\n      radioButtons(\"select_column\", \n                   label = h3(\"Compare Medical Spending or Child Mortality\"),\n                   list(\"Medical Spending\" = \"Medical_spending\",\n                        \"Child Mortality\" = \"child_mortality\")),\n      selectInput(\"select_first_country\", label = h3(\"Pick a country\"), \n                  choices = unique(merge_data_frames$Country), multiple = TRUE)\n\n    ),\n    \n    # Show a plot of the generated distribution\n    mainPanel(\n      tabsetPanel(\n        \n        tabPanel(\"Child_mortality VS Medical Spending\", plotOutput(\"year_plot\")),\n        tabPanel(\"Compare 2 countries\", plotOutput(\"compare_plot\"))\n      )\n    )\n  )\n))\n",
+    "created" : 1559728373305.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "354860479",
+    "id" : "2E553115",
+    "lastKnownWriteTime" : 1559728369,
+    "last_content_update" : 1559728369,
+    "path" : "~/Downloads/ui.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
