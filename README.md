@@ -1,6 +1,6 @@
 # group-19-final-project
 
-##Introduction
+## Introduction
 
 Welcome to Group 19's research into the impacts of purchasing power and food access on child health and wellbeing. We wish to understand:
 **To what extent does purchasing power affect food consumption and access, and what implications do they have on child mortality?**
@@ -10,7 +10,7 @@ To understand this further, we divded the question into three segments to explor
 *How does the ability to purchase food impact child mortality?*
 We hope that through our illustrations, you will be able to discover for yourself the connection within the data.
 
-##Background on Data
+## Background on Data
 
 The datasets for these illustrations have come from a variety of global reporting sources. Through extensive searching, we eventually settled on data originating from these sources:
 
@@ -26,16 +26,18 @@ UNICEF
 https://data.unicef.org
 UNICEF provided information on child mortality data. They also have large repositories of child and family development data.
 
-##The Team and Project Resources
+## The Team and Project Resources
 
 Benjamin Chan
+
 Saurav Sawansukha
+
 Emre Inceoglu
 
 This app was constructed in Shiny in R:
 https://shiny.rstudio.com
 Special thanks to our TAs Andrey and Alvin for their support, and our Professor Ott Toomet.
 
-##Shinyapps.io Link
+## Shinyapps.io Link
 
 ***https://benchanhw.shinyapps.io/group-19-final-project/***
